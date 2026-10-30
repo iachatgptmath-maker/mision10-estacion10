@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0a0e31">
+<title>Misión 10 IA · Estación 10 · El desafío final</title>
+<style>
+  :root{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color-scheme:dark;--bg:#0a0e31;--panel:#23205a;--edge:#7466e8;--lime:#ffe36e;--aqua:#79e8ff;--cream:#f3f5ff;--muted:#d3d7fa}
+  *{box-sizing:border-box}
+  body{margin:0;color:var(--cream);background:radial-gradient(circle at 15% 0,#26349d 0,transparent 35%),radial-gradient(circle at 93% 24%,#4c177c 0,transparent 32%),var(--bg);min-height:100vh}
+  body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.13;background-image:linear-gradient(#d8b0fa1c 1px,transparent 1px),linear-gradient(90deg,#d8b0fa1c 1px,transparent 1px);background-size:32px 32px}
+  main{width:min(790px,100%);margin:0 auto;padding:22px 17px 42px;position:relative}
+  .head{display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .pill{border:1px solid #e489ff;border-radius:999px;padding:9px 13px;font-weight:900;background:#085444;color:#e3fff7;font-size:.82rem;letter-spacing:.06em}
+  .score{color:#ffe769}
+  header{text-align:center;margin:25px 0 23px}
+  .eyebrow{font-size:.78rem;letter-spacing:.2em;font-weight:800;color:var(--aqua)}
+  header h1{font-size:clamp(2.0rem,8vw,3.6rem);line-height:1.05;margin:10px 0;color:var(--lime);text-shadow:0 3px 18px #ae3eb1}
+  header p{color:#f2dafa;line-height:1.5;margin:8px auto;max-width:590px}
+  .symbols{font-size:clamp(1.7rem,7vw,3.2rem);margin-top:12px}
+  .progress{height:9px;border-radius:99px;overflow:hidden;background:#17625b;margin:19px 0 25px}
+  .progress div{height:100%;background:linear-gradient(90deg,var(--aqua),var(--lime));transition:width .2s ease}
+  .card{background:#0b3a38f2;border:1px solid var(--edge);border-radius:24px;padding:clamp(18px,5vw,31px);box-shadow:0 18px 40px #0a041490}
+  h2{margin:4px 0 12px;font-size:clamp(1.4rem,4.5vw,1.9rem)}
+  p{line-height:1.58}
+  .kicker{font-size:.78rem;font-weight:800;color:var(--aqua);letter-spacing:.12em;text-transform:uppercase}
+  .prompt{font-size:1.08rem;line-height:1.65;margin:10px 0 14px}
+  .visual{padding:16px;background:#052c36;border:1px dashed #69cbae;border-radius:16px;margin:17px 0 20px;overflow-x:auto}
+  .visual small{display:block;color:#acc6cb;line-height:1.4;margin-bottom:10px}
+  .metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+  .metric{background:#17354a;border-radius:13px;padding:12px 8px;text-align:center}
+  .metric b{display:block;font-size:1.25rem;color:var(--lime)}.metric span{font-size:.76rem;color:#d0e1e9}
+  .mini-bars{display:flex;align-items:end;justify-content:space-around;height:150px;gap:13px;padding:0 9px 8px;border-bottom:2px solid #89a5ad}
+  .barcol{width:27%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:end;gap:7px;font-size:.8rem}
+  .barcol .bar{width:min(58px,100%);border-radius:7px 7px 0 0;background:linear-gradient(180deg,#a9ff66,#43ba9a);min-height:5px}
+  .barcol b{color:#e6f8fc}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+  .chip{padding:11px 14px;border:1px solid #4e94a9;background:#16394e;border-radius:11px;font-size:1.1rem;font-weight:800;color:var(--lime)}
+  .marbles{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;padding:8px}
+  .marble{height:35px;width:35px;border-radius:50%;box-shadow:inset -8px -7px 12px #0005, inset 6px 5px 8px #fff7}
+  .blue{background:#3fafff}.green{background:#68dd66}.orange{background:#ffad40}
+  .chart{display:flex;align-items:end;justify-content:space-around;gap:14px;height:164px;padding:12px 8px 24px;border-bottom:2px solid #a3b9be;position:relative}
+  .chart:before{content:"48";position:absolute;bottom:-6px;left:0;font-size:.7rem;color:#b5c7cb;transform:translateY(100%)}
+  .chartbar{width:40%;max-width:135px;display:flex;align-items:center;justify-content:end;flex-direction:column;gap:4px;position:relative}
+  .chartbar .column{width:100%;background:linear-gradient(#67f4b0,#35a6bd);border-radius:8px 8px 0 0}
+  .chartbar b{font-size:.84rem;color:#e0f7ff}
+  .data-table{width:100%;border-collapse:collapse;text-align:center;font-size:.9rem}
+  .data-table th,.data-table td{border-bottom:1px solid #376279;padding:11px 7px}
+  .data-table th{color:var(--aqua)}
+  .options{display:grid;gap:11px}
+  .option{display:block;width:100%;text-align:left;border:1px solid #52b2a3;border-radius:14px;background:#11554e;color:#f1fbff;padding:15px;cursor:pointer;font-size:1rem;line-height:1.5}
+  .option:hover:not(:disabled){border-color:var(--lime)}.option.active{background:#21786a;border:2px solid var(--lime);padding:14px}
+  .option:disabled{cursor:default;opacity:.85}
+  .option b{color:var(--lime);margin-right:7px}
+  label{display:block;font-weight:800;margin:10px 0 9px}
+  input{width:100%;border:1px solid #64d3bd;background:#052a30;color:white;border-radius:13px;padding:15px;font-size:1.1rem}
+  input:focus-visible,.option:focus-visible,button:focus-visible{outline:3px solid var(--lime);outline-offset:3px}
+  .hint{color:var(--muted);font-size:.87rem;margin:9px 0}
+  .btn{width:100%;border:0;border-radius:13px;background:var(--lime);color:#06263a;font-weight:900;font-size:1.02rem;padding:16px;margin-top:17px;cursor:pointer}
+  .btn:disabled{opacity:.45;cursor:not-allowed}.btn.secondary{background:transparent;border:1px solid #a6ebd6;color:#fff3ff}
+  .feedback{padding:15px;margin-top:17px;border-radius:13px;background:#234d43;line-height:1.55;border:1px solid #6eac96}
+  .feedback.no{background:#6a2b2c;border-color:#be6483}
+  .result{font-size:clamp(2.5rem,10vw,4rem);font-weight:1000;text-align:center;color:var(--lime);margin:12px 0}
+  .row{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+  .notice{background:#11584d;border:1px solid #72d7c3;border-radius:12px;padding:14px;line-height:1.5}
+  footer{text-align:center;color:#a7c3cd;font-size:.8rem;margin-top:22px;line-height:1.6}
+
+  .fake-message{background:#30164b;border:2px solid #e49af8;padding:17px;border-radius:15px;text-align:center}
+  .fake-message p{font-size:1.1rem;font-weight:800;color:#fff2f6;line-height:1.5}
+  .fake-message.danger{border-color:#ff7777;background:#441b43}
+  .fake-mark{color:#ffdf63;background:#532865;display:inline-block;border-radius:7px;padding:5px 9px;font-weight:900;font-size:.8rem;letter-spacing:.08em}
+  .fake-url{font-family:monospace;background:#170d26;border:1px solid #b66c94;padding:9px 12px;border-radius:7px;color:#ffc1c1;overflow-wrap:anywhere;display:block}
+  .evidence-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:12px;text-align:center}
+  .evidence{padding:16px;background:#3c2056;border:1px solid #9961bf;border-radius:13px;min-height:120px}
+  .evidence>b{color:#ffdf63;font-size:1rem}.evidence p{font-weight:700;margin:13px 0 0}
+  .sources{display:grid;gap:9px}.sources>div{background:#321b4c;border:1px solid #9961bf;border-radius:10px;padding:13px;display:flex;align-items:center;gap:13px;flex-wrap:wrap}.sources span{font-size:1.6rem}.sources strong{color:#ffdf63}.sources small{color:#e7d6f5}
+
+  .code-screen{border-radius:14px;background:#10112c;border:1px solid #756bdd;padding:17px 15px;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;color:#fff9de;box-shadow:inset 0 0 25px #24195f}
+  .code-screen small{color:#85f5ff!important;letter-spacing:.05em;font-weight:700}
+  .code-screen pre{white-space:pre-wrap;font-size:clamp(.84rem,3vw,1.05rem);line-height:1.8;color:#e7fcff;margin:0}
+  .code-line{display:flex;justify-content:space-between;padding:11px 4px;border-bottom:1px dashed #5a5e96;font-size:1.1rem}
+  .code-line span{color:#77dafa}.code-line strong{color:#ffe769;font-size:1.3rem}
+  .code-output{background:#35409a;color:#ffef79;padding:12px;text-align:center;font-weight:900;border-radius:9px;margin-top:12px}
+  .lights{display:flex;gap:15px;justify-content:center;margin:10px 0 20px}.lights span{border:2px solid #c6ccf6;width:42px;height:42px;border-radius:50%;opacity:.65}.lights .red{background:#e45265}.lights .yellow{background:#ffdc50}.lights .green{background:#4de6a3}
+  .grid-machine{display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(3,42px);gap:4px;margin:12px auto;max-width:320px;background:linear-gradient(90deg,#323672 1px,transparent 1px),linear-gradient(#323672 1px,transparent 1px);background-size:25% 33.333%;border:1px solid #767de3;border-radius:7px;padding:3px}
+  .grid-machine>div{display:grid;place-items:center;background:#39355f;border:1px solid #8c79b1;border-radius:5px;font-size:1.3rem}.grid-machine .target{background:#0e635b}.grid-machine .robotcell{background:#215284}.grid-machine .route{color:#ffd959;font-weight:900}
+  .coords{text-align:center;color:#c3ddff;font-size:.78rem}
+  .machine-row{display:grid;grid-template-columns:1fr 2fr 1fr;gap:8px;margin:8px auto;max-width:330px;align-items:center;text-align:center}
+  .machine-row b{padding:10px;background:#364078;border-radius:8px;font-size:1.45rem;color:#ffe679}.machine-row span{padding:12px 4px;border:1px solid #5bbfcf;border-radius:11px;color:#89edff;font-size:.83rem}.machine-row.new b{background:#7b2e88}
+
+  /* Recursos visuales de la estación ambiental */
+  .eco-panel{padding:16px;border-radius:14px;background:linear-gradient(160deg,#0b534c,#093040);border:1px solid #6fdcb5;color:white}
+  .eco-hero{font-size:3.25rem;text-align:center;margin:4px 0 17px}
+  .eco-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+  .eco-stats>div{background:#156b5a;border-radius:12px;text-align:center;padding:11px 4px}
+  .eco-stats b,.eco-stats small{display:block}.eco-stats b{color:#ffe56c;font-size:clamp(.95rem,3.5vw,1.25rem)}.eco-stats small{font-size:.75rem;color:#e6fff7}
+  .eco-note{font-size:.87rem;color:#e9ffe4;text-align:center;margin:16px 0 0;line-height:1.45}
+  .bulb-compare,.coast-grid{display:grid;grid-template-columns:1fr 34px 1fr;align-items:center;gap:9px;text-align:center}
+  .bulb-compare>div:not(.eco-arrow),.coast-grid>div{padding:13px 5px;border-radius:13px;background:#135b4f;display:grid;gap:6px;justify-items:center}
+  .bulb-compare span,.coast-grid span{font-size:2.55rem}.bulb-compare strong,.coast-grid strong{font-size:.78rem;color:#b8ffe3}
+  .bulb-compare b,.coast-grid b{font-size:1.45rem;color:#ffe56c}.eco-arrow{font-size:2rem;color:#ffe56c}
+  .waste-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
+  .waste-grid>div{background:#155f55;border:1px solid #83d3be;padding:12px 6px;border-radius:11px;text-align:center;display:grid;gap:5px;justify-items:center;font-size:2.2rem}
+  .waste-grid b{font-size:.95rem;color:#f9ffec}.waste-grid small{font-size:.76rem;color:#bdf7e7}
+  .coast-grid{grid-template-columns:1fr 1fr}.coast-grid>div{min-height:143px}.coast-grid .no-mangrove{background:#68533f}
+  .budget-top{text-align:center;background:#237060;border-radius:11px;padding:13px;font-size:.88rem}.budget-top b{color:#ffed63;font-size:1.15rem}
+  .budget-table{width:100%;border-collapse:collapse;margin-top:13px;text-align:center}.budget-table th,.budget-table td{border-bottom:1px solid #64a998;padding:12px 5px;font-size:.9rem}.budget-table th{color:#acffea}
+  @media (max-width:400px){.bulb-compare span,.coast-grid span{font-size:2rem}}
+  @media(max-width:450px){.metric b{font-size:1.05rem}.metric span{font-size:.72rem}.marble{height:29px;width:29px}}
+  @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+
+  /* Visualizaciones propias de la misión */
+  .challenge{border:1px solid var(--edge);border-radius:16px;padding:18px;background:linear-gradient(145deg,#101c39,#15264d);color:#fff}
+  .tokens{font-size:clamp(2.2rem,8vw,4.2rem);text-align:center;margin:4px 0 16px}
+  .taskcols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+  .taskcols>div{padding:13px 7px;border:1px solid #77badd;border-radius:12px;text-align:center;background:#263f6c}
+  .taskcols b,.taskcols span{display:block;line-height:1.45}.taskcols b{font-size:.75rem;color:#86eafa}.taskcols span{font-weight:800;font-size:clamp(.75rem,3vw,1rem)}
+  .rule-list{font-size:1.2rem;line-height:2;text-align:center;font-weight:900}
+  .mini-table{width:100%;border-collapse:collapse;text-align:center;font-size:.93rem}.mini-table th{color:#83eeef}.mini-table td,.mini-table th{padding:11px;border-bottom:1px solid #4d7195}
+  .sequence{display:flex;gap:9px;flex-wrap:wrap;justify-content:center}.sequence span{background:#293e86;padding:13px 14px;border:1px solid #88bdf4;border-radius:13px;font-weight:950;color:#ffdd64;font-size:clamp(1rem,5vw,1.75rem)}
+  .caption-note{text-align:center;color:#d8eaff;font-size:.84rem;margin:12px 0 0}
+  .alert-msg{background:#5c263e;border:1px solid #f9a59c;padding:14px;text-align:center;font-size:1rem;font-weight:900;border-radius:12px;margin:0 0 14px}
+  .timer-pulse{display:inline-block;color:#ffe96e;font-weight:950;margin-bottom:10px;border:1px solid #ffd15c;padding:7px 12px;border-radius:10px;background:#5b2231}
+  .timer-pulse.urgent{color:white;background:#b33a43;animation:pulse .5s infinite alternate}
+  @keyframes pulse{to{filter:brightness(1.25)}}
+  @media(max-width:430px){.taskcols>div{padding:9px 3px}.taskcols b{font-size:.64rem}}
+
+</style>
+</head>
+<body><main>
+  <div class="head"><span class="pill">🚀 MISIÓN 10</span><span id="scoreTop" class="pill score">🏆 0 PTS</span></div>
+  <header><div class="eyebrow">Gincana de retos y conocimiento</div><div class="symbols">🚀 🧠 🏆</div><h1>EL DESAFÍO FINAL</h1><p>¡El núcleo de Misión 10 IA está protegido! Superen cinco pruebas integradoras de lógica, datos, ciencias, pensamiento crítico y estrategia para desbloquear el cierre.</p></header>
+  <div class="progress" aria-label="Progreso de la misión"><div id="progressFill" style="width:0%"></div></div>
+  <section class="card" id="app" aria-live="polite"></section>
+  <footer>MISIÓN 10 IA · Estación 10 · Cinco retos de 20 puntos · Puntuación máxima: 100</footer>
+</main>
+<script>
+'use strict';
+// Misma URL institucional de Apps Script utilizada en las estaciones anteriores.
+const ENDPOINT = 'https://script.google.com/a/macros/iedigital.edu.co/s/AKfycbyrz9NVJT-lpTcXlXuVYs06Mu8JpsyChqn8I6Hn9VjhsQ9nnM9zUJrZ4cArkg-guu8/exec';
+const STATION = '10';
+const QUESTIONS = [
+  {
+    "title": "La secuencia del portal",
+    "tag": "Reto 1 · Lógica y patrones",
+    "visual": "pattern",
+    "type": "choice",
+    "prompt": "El panel muestra 3, 7, 15, 31, __. Cada término sigue la misma regla. ¿Qué número permite abrir el portal?",
+    "options": [
+      "47",
+      "61",
+      "63",
+      "65"
+    ],
+    "answer": 2,
+    "why": "Cada número es el anterior × 2 + 1. Después de 31 viene 31 × 2 + 1 = 63."
+  },
+  {
+    "title": "La señal entre los datos",
+    "tag": "Reto 2 · Estadística e interpretación",
+    "visual": "scores",
+    "type": "choice",
+    "prompt": "Cinco pruebas duran 8, 9, 10, 11 y 42 minutos. Un miembro afirma que todas duran “más o menos 16 minutos” porque ese es el promedio. ¿Cuál medida representa mejor un tiempo típico frente al dato extremo?",
+    "options": [
+      "La media: 16 minutos",
+      "La mediana: 10 minutos",
+      "El máximo: 42 minutos",
+      "El rango: 34 minutos"
+    ],
+    "answer": 1,
+    "why": "La media es (8+9+10+11+42)/5=16, pero el 42 distorsiona el promedio. La mediana, 10, representa mejor el centro típico de estos tiempos."
+  },
+  {
+    "title": "La batería de la nave",
+    "tag": "Reto 3 · Energía y proporcionalidad",
+    "visual": "battery",
+    "type": "choice",
+    "prompt": "Una nave consume 120 Wh por cada hora de funcionamiento. Su batería tiene 540 Wh útiles. Si ya operó 2 horas, ¿durante cuánto tiempo adicional puede continuar al mismo consumo?",
+    "options": [
+      "1,5 horas",
+      "2 horas",
+      "2,5 horas",
+      "4,5 horas"
+    ],
+    "answer": 2,
+    "why": "En 2 horas gastó 240 Wh. Quedan 540 − 240 = 300 Wh. A 120 Wh/h, puede operar 300/120 = 2,5 horas adicionales."
+  },
+  {
+    "title": "La noticia del centro de mando",
+    "tag": "Reto 4 · Pensamiento crítico",
+    "visual": "source",
+    "type": "choice",
+    "prompt": "Una publicación anónima asegura: “El agua de todo el municipio es peligrosa”. Incluye una foto sin fecha, sin fuente y sin resultados de laboratorio. ¿Qué debe hacer primero el equipo?",
+    "options": [
+      "Compartirla de inmediato por precaución.",
+      "Creerla porque tiene una fotografía.",
+      "Ignorar toda alerta sobre el agua, aunque sea oficial.",
+      "Verificar fecha, lugar y fuentes oficiales antes de afirmar que es verdad."
+    ],
+    "answer": 3,
+    "why": "Una afirmación amplia requiere evidencias verificables y actualizadas. Se deben consultar fuentes oficiales y contrastar la fecha y el lugar; una foto sin contexto no basta."
+  },
+  {
+    "title": "La llave de los cinco sistemas",
+    "tag": "Reto 5 · Estrategia integradora",
+    "visual": "final",
+    "type": "choice",
+    "prompt": "El núcleo necesita activar 2 módulos distintos con un máximo de 9 unidades de energía. A cuesta 3 y aporta 4 puntos de estabilidad; B cuesta 4 y aporta 6; C cuesta 5 y aporta 8. ¿Qué combinación maximiza la estabilidad sin superar la energía disponible?",
+    "options": [
+      "A + B: 10 puntos, costo 7",
+      "A + C: 12 puntos, costo 8",
+      "B + C: 14 puntos, costo 9",
+      "Activar únicamente C: 8 puntos, costo 5"
+    ],
+    "answer": 2,
+    "why": "B+C consume 4+5=9 unidades, no supera el límite y produce 6+8=14 puntos. Es el valor más alto entre las combinaciones posibles."
+  }
+];
+const app = document.getElementById('app');
+const scoreTop = document.getElementById('scoreTop');
+const progressFill = document.getElementById('progressFill');
+let team = '', step = -1, selection = null, confirmed = false, responses = [], attemptId = '', sent = false;
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function points(){return responses.reduce((total,v,i)=>total+(v===QUESTIONS[i].answer?20:0),0);}
+function genId(){return 'M10-10-'+Date.now()+'-'+Math.random().toString(36).slice(2,12);}
+function visualization(type){
+ switch(type){
+ case 'pattern':return `<div class="challenge"><div class="tokens">🔐 🚀</div><div class="sequence"><span>3</span><span>7</span><span>15</span><span>31</span><span>?</span></div><p class="caption-note">Encuentra la regla que se repite.</p></div>`;
+ case 'scores':return `<div class="challenge"><div class="tokens">📊 ⏱️</div><div class="sequence"><span>8</span><span>9</span><span>10</span><span>11</span><span>42</span></div><p class="caption-note">Duración de cinco pruebas en minutos.</p></div>`;
+ case 'battery':return `<div class="challenge"><div class="tokens">🔋 ⚡ 🚀</div><div class="taskcols"><div><b>CAPACIDAD</b><span>540 Wh</span></div><div><b>CONSUMO</b><span>120 Wh/h</span></div><div><b>YA OPERÓ</b><span>2 horas</span></div></div></div>`;
+ case 'source':return `<div class="challenge"><div class="alert-msg">⚠️ MENSAJE VIRAL<br>“Toda el agua es peligrosa”</div><div class="taskcols"><div><b>FECHA</b><span>Desconocida</span></div><div><b>AUTOR</b><span>Anónimo</span></div><div><b>PRUEBAS</b><span>No adjuntas</span></div></div></div>`;
+ case 'final':return `<div class="challenge"><div class="tokens">🔐 🔋 🏆</div><table class="mini-table"><tr><th>Módulo</th><th>Energía</th><th>Estabilidad</th></tr><tr><td>A</td><td>3</td><td>4</td></tr><tr><td>B</td><td>4</td><td>6</td></tr><tr><td>C</td><td>5</td><td>8</td></tr></table><p class="caption-note">Activar 2 módulos diferentes · Energía disponible: 9.</p></div>`;
+ default:return '';
+ }
+}
+function formPost(){
+  const iframe = document.createElement('iframe');
+  iframe.name='m10_frame_'+Date.now()+'_'+Math.floor(Math.random()*100000);
+  iframe.hidden=true;
+  iframe.setAttribute('title','Envío de resultado de Misión 10 IA');
+  document.body.appendChild(iframe);
+  const form=document.createElement('form');form.method='POST';form.action=ENDPOINT;form.target=iframe.name;form.style.display='none';
+  const payload={equipo:team,estacion:STATION,puntos:String(points()),id:attemptId};
+  for(const [key,value] of Object.entries(payload)){
+    const item=document.createElement('input');item.type='hidden';item.name=key;item.value=value;form.appendChild(item);
+  }
+  document.body.appendChild(form);form.submit();
+  // El contenido de respuesta es de otro origen; no interpretamos el envío como confirmación.
+  setTimeout(()=>{form.remove();iframe.remove();},20000);
+}
+function trySend(){if(sent)return;sent=true;formPost();}
+function reset(){team='';step=-1;selection=null;confirmed=false;responses=[];attemptId='';sent=false;render();}
+function render(){
+  scoreTop.textContent='🏆 '+points()+' PTS';
+  progressFill.style.width=(step<0?'0':step>=5?'100':String(step*20))+'%';
+  if(step===-1){
+    app.innerHTML='<div class="kicker">Acceso de agentes</div><h2>🚀 Entrar al desafío final</h2><p>La última prueba reúne lógica, estadística, ciencias, verificación de información y estrategia. Cinco respuestas; 20 puntos por acierto; una vez confirmada una decisión no puede cambiarse. ¡El cierre depende de su equipo!</p><label for="team">Código del equipo</label><input id="team" maxlength="7" placeholder="M10-001" autocomplete="off" autocapitalize="characters"><p class="hint">Códigos autorizados: M10-001 a M10-020</p><button id="start" class="btn">COMENZAR MISIÓN 10</button>';
+    document.getElementById('start').onclick=()=>{
+      const input=document.getElementById('team').value.trim().toUpperCase();
+      if(!/^M10-0(0[1-9]|1[0-9]|20)$/.test(input)){alert('Escribe un código válido entre M10-001 y M10-020');return;}
+      team=input;step=0;attemptId=genId();sent=false;render();
+    };
+    return;
+  }
+  if(step===QUESTIONS.length){
+    app.innerHTML='<div class="kicker">Núcleo desbloqueado</div><h2>🏆 ¡MISIÓN COMPLETADA!</h2><div class="result">'+points()+' / 100</div><p style="text-align:center">Equipo <strong>'+esc(team)+'</strong> · '+(points()/20)+' respuestas correctas de 5</p><div class="notice"><strong>📡 Envío solicitado a Google Sheets.</strong><br>Esta pantalla no puede confirmar por sí misma que el registro quedó guardado. Pide al docente revisar la pestaña <b>Intentos</b>, estación <b>10</b>.</div><button id="retry" class="btn secondary">REINTENTAR ENVÍO DE ESTE MISMO INTENTO</button><button id="again" class="btn">VOLVER A JUGAR</button><p class="hint">El reenvío conserva el mismo ID para evitar duplicados.</p>';
+    trySend();
+    document.getElementById('retry').onclick=()=>{formPost();alert('Se intentó reenviar el mismo resultado. Verifica en Google Sheets.');};
+    document.getElementById('again').onclick=reset;
+    return;
+  }
+  const q=QUESTIONS[step];
+  const options=q.type==='choice'?'<div class="options">'+q.options.map((option,i)=>'<button type="button" data-option="'+i+'" class="option'+(selection===i?' active':'')+'" '+(confirmed?'disabled':'')+'><b>'+String.fromCharCode(65+i)+'.</b> '+esc(option)+'</button>').join('')+'</div>':'<label for="numeric">Escribe tu respuesta numérica</label><input id="numeric" type="number" min="0" max="1000" step="any" inputmode="decimal" placeholder="Ingresa un número" '+(confirmed?'disabled':'')+' value="'+(selection===null?'':String(selection))+'"><p class="hint">Puedes usar punto o coma para los decimales. No incluyas símbolos.</p>';
+  const feedback=confirmed?'<div class="feedback'+(selection===q.answer?'':' no')+'"><strong>'+(selection===q.answer?'✅ ¡Respuesta correcta!':'🧩 Analiza la explicación para mejorar')+'</strong><p>'+esc(q.why)+'</p></div>':'';
+  app.innerHTML='<div class="row"><div class="kicker">'+esc(q.tag)+'</div><div class="hint">RETO '+(step+1)+' / 5</div></div><h2>'+esc(q.title)+'</h2><p class="prompt">'+esc(q.prompt)+'</p><div class="visual">'+visualization(q.visual)+'</div>'+options+'<button class="btn" id="continue" '+(selection===null?'disabled':'')+'>'+(confirmed?(step===4?'FINALIZAR MISIÓN':'SIGUIENTE RETO'):'CONFIRMAR RESPUESTA')+'</button>'+feedback;
+  if(!confirmed && q.type==='choice'){
+    app.querySelectorAll('[data-option]').forEach(el=>el.onclick=()=>{selection=Number(el.dataset.option);render();});
+  }
+  if(!confirmed && q.type==='number'){
+    const input=document.getElementById('numeric');
+    input.addEventListener('input',()=>{const txt=input.value.trim().replace(',','.');selection=(txt!==''&&Number.isFinite(Number(txt)))?Number(txt):null;document.getElementById('continue').disabled=selection===null;});
+  }
+  document.getElementById('continue').onclick=()=>{
+    if(selection===null)return;
+    if(!confirmed){responses.push(selection);confirmed=true;render();}
+    else{step++;confirmed=false;selection=null;render();}
+    app.scrollIntoView({block:'start',behavior:'auto'});
+  };
+}
+render();
+</script>
+</body></html>
